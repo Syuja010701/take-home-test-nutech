@@ -1,19 +1,5 @@
 const { pool } = require("../config/db");
 
-// Ambil semua user
-const getAllUsers = async () => {
-  const [rows] = await pool.query("SELECT * FROM users");
-  return rows;
-};
-
-// Ambil 1 user by ID
-const getUserById = async (id) => {
-  const [rows] = await pool.query("SELECT * FROM users WHERE id = ?", [id]);
-  return rows[0];
-};
-
-// Tambah user baru (untuk register)
-// Expect: (first_name, last_name, email, password)
 const createUser = async (first_name, last_name, email, password) => {
   const [result] = await pool.execute(
     "INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)",
@@ -28,15 +14,42 @@ const createUser = async (first_name, last_name, email, password) => {
 };
 
 const findUserByEmail = async (email) => {
+  const [rows] = await pool.execute("SELECT * FROM users WHERE email = ?", [
+    email,
+  ]);
+  return rows[0];
+};
+
+const updateUser = async (email, first_name, last_name) => {
+  await pool.execute(
+    `UPDATE users SET first_name = ?, last_name = ? WHERE email = ?`,
+    [first_name, last_name, email]
+  );
+
   const [rows] = await pool.execute(
-    "SELECT * FROM users WHERE email = ?",
+    "SELECT id, first_name, last_name, email, profile_image FROM users WHERE email = ?",
     [email]
   );
+
+  return rows[0];
+};
+
+const updateUserImage = async (email, imagePath) => {
+  await pool.execute(`UPDATE users SET profile_image = ? WHERE email = ?`, [
+    imagePath,
+    email,
+  ]);
+
+  const [rows] = await pool.execute(
+    "SELECT id, first_name, last_name, email, profile_image FROM users WHERE email = ?",
+    [email]
+  );
+
   return rows[0];
 };
 module.exports = {
-  getAllUsers,
-  getUserById,
   createUser,
-  findUserByEmail
+  findUserByEmail,
+  updateUser,
+  updateUserImage,
 };

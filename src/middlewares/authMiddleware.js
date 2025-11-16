@@ -1,26 +1,37 @@
-const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
 
 const verifyToken = (req, res, next) => {
   // Ambil token dari header Authorization
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers["authorization"];
 
-  const token = authHeader && authHeader.split(' ')[1]; 
-  
+  const token = authHeader && authHeader.split(" ")[1];
+
   if (!token) {
-    return res.status(401).json({ message: 'Access denied, token missing' });
+    return res
+      .status(401)
+      .json({
+        status: false,
+        message: "Token tidak tidak valid atau kadaluwarsa",
+        data: null,
+      });
   }
 
   try {
-    // ✅ Verifikasi token
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded; 
+    req.user = decoded;
     next();
   } catch (err) {
-    if (err.name === 'TokenExpiredError') {
-      return res.status(401).json({ message: 'Token expired, please login again' });
+    if (err.name === "TokenExpiredError") {
+      return res
+        .status(401)
+        .json({
+          status: false,
+          message: "Token tidak tidak valid atau kadaluwarsa",
+          data: null,
+        });
     }
-    return res.status(403).json({ message: 'Invalid token' });
+    return res.status(403).json({ message: "Invalid token" });
   }
 };
 

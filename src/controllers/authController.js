@@ -9,10 +9,8 @@ const register = async (req, res) => {
   try {
     const { first_name, last_name, email, password } = req.body;
 
-    //  Hash password
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
    
-    // Simpan ke database 
     const data = await UserModel.createUser(first_name, last_name, email, hashedPassword);
 
     return res.status(201).json({
@@ -34,7 +32,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    // Validasi input
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -47,13 +45,11 @@ const login = async (req, res) => {
       return res.status(401).json({ status:false, message: 'Invalid email or password' });
     }
 
-    // Cek password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ status:false, message: 'Invalid email or password' });
     }
 
-    // Buat JWT token (expired 12 jam)
     const token = jwt.sign(
       { email: user.email, id: user.id },
       process.env.JWT_SECRET,
@@ -61,6 +57,8 @@ const login = async (req, res) => {
     );
 
     delete user.password;
+    delete user.created_at;
+    delete user.profile_image;
 
     res.status(200).json({
       message: 'Login successful',
