@@ -15,8 +15,5 @@ Thumbs.db
 .vscode/
 .idea/
 
-# images
-src/uploads/**
-
 # Optional lock files (pnpm)
 pnpm-lock.yaml
