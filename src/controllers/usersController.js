@@ -1,8 +1,7 @@
 const bcrypt = require("bcrypt");
 const UserModel = require("../models/usersModel");
 const SALT_ROUNDS = 10;
-const path = require("path");
-const fs = require("fs");
+const { put, del } = require("@vercel/blob");
 
 const getProfile = async (req, res) => {
   try {
@@ -67,7 +66,6 @@ const updateUser = async (req, res) => {
 
 const uploadProfileImage = async (req, res) => {
   try {
-    // get token email
     const email = req.user.email;
     const user = await UserModel.findUserByEmail(email);
 
@@ -77,26 +75,32 @@ const uploadProfileImage = async (req, res) => {
       return res.status(400).json({ message: "Image file is required" });
     }
 
-    if (user.profile_image) {
-      const oldImagePath = path.join(__dirname, "..", user.profile_image);
-
-      if (fs.existsSync(oldImagePath)) {
-        fs.unlinkSync(oldImagePath);
+    // Upload ke Vercel Blob
+    const { url } = await put(
+      `profile_${Date.now()}_${req.file.originalname}`,
+      req.file.buffer,
+      {
+        access: "public",
+        contentType: req.file.mimetype
       }
+    );
+
+    // Hapus image lama jika ada
+    if (user.profile_image?.startsWith("https://")) {
+      await del(user.profile_image);
     }
 
-    const imageUrl = "uploads/profile/" + req.file.filename;
-
-    const updatedUser = await UserModel.updateUserImage(email, imageUrl);
+    const updatedUser = await UserModel.updateUserImage(email, url);
 
     return res.json({
       status: true,
       message: "Profile image updated",
       data: updatedUser,
     });
+
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ status: false, message: "Server error" });
+    console.error(err);
+    return res.status(500).json({ status: false, message: err.message });
   }
 };
 
