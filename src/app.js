@@ -11,8 +11,6 @@ const app = express();
 
 app.use(express.json());
 
-// app.use("/uploads", express.static("uploads")); 
-
 // users
 app.use('/profile', userRoutes);
 

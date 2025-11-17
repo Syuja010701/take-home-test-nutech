@@ -16,7 +16,6 @@
     "bcrypt": "^5.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "express-list-endpoints": "^7.1.1",
     "express-validator": "^7.3.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",

@@ -2,7 +2,6 @@ const TransactionModel = require("../models/transactionsModel");
 const { responseJson } = require("../helpers/response");
 const { findUserByEmail } = require("../models/usersModel");
 const ServiceModel = require("../models/servicesModel");
-const { del } = require("@vercel/blob");
 
 const createTransactionTopUP = async (req, res) => {
   const { top_up_amount } = req.body;
