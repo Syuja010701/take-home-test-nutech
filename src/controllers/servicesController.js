@@ -1,13 +1,12 @@
+const { responseJson } = require("../helpers/response");
 const servicesModel = require("../models/servicesModel");
 const getAllServies = async (req, res) => {
   try {
     const [services] = await servicesModel.getAllServies();
-    res.status(200).json({ status: true, message: "sukses", data: services });
+    return responseJson(res, 200, 0, "sukses", services);
   } catch (error) {
     console.error("Error fetching services:", error);
-    res
-      .status(500)
-      .json({ status: false, message: "Internal server error", data: null });
+    return responseJson(res, 500, 1, "Internal Server Error", null);
   }
 };
 

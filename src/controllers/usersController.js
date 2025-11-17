@@ -2,27 +2,19 @@ const bcrypt = require("bcrypt");
 const UserModel = require("../models/usersModel");
 const SALT_ROUNDS = 10;
 const { put, del } = require("@vercel/blob");
-
+const { responseJson } = require("../helpers/response");
 const getProfile = async (req, res) => {
   try {
     const email = req.user.email;
     const data = await UserModel.findUserByEmail(email);
 
-    if (!data) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
     delete data.password;
     delete data.created_at;
 
-    return res.status(200).json({
-      status: true,
-      message: "Profile fetched successfully",
-      profile: data,
-    });
+    return responseJson(res, 200, 0, "Sukses", data);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ status: false, message: "Server error" });
+    return responseJson(res, 500, 500, "Terjadi kesalahan pada server", null);
   }
 };
 
@@ -51,16 +43,10 @@ const updateUser = async (req, res) => {
 
     delete updateUser.password;
     delete updateUser.created_at;
-    return res.status(200).json({
-      status: true,
-      message: "User updated successfully",
-      user: updatedUser,
-    });
+    return responseJson(res, 200, 0, "Update Profile berhasil", updatedUser);
   } catch (error) {
     console.error("updateUser error:", error);
-    return res
-      .status(500)
-      .json({ status: false, message: "Internal server error" });
+    return responseJson(res, 500, 500, "Terjadi kesalahan pada server", null);
   }
 };
 
@@ -69,38 +55,37 @@ const uploadProfileImage = async (req, res) => {
     const email = req.user.email;
     const user = await UserModel.findUserByEmail(email);
 
-    if (!user) return res.status(404).json({ message: "User not found" });
-
     if (!req.file) {
-      return res.status(400).json({ message: "Image file is required" });
+      return responseJson(res, 400, 101, "File tidak ditemukan", null);
     }
 
-    // Upload ke Vercel Blob
     const { url } = await put(
       `profile_${Date.now()}_${req.file.originalname}`,
       req.file.buffer,
       {
         access: "public",
-        contentType: req.file.mimetype
+        contentType: req.file.mimetype,
       }
     );
 
-    // Hapus image lama jika ada
     if (user.profile_image?.startsWith("https://")) {
       await del(user.profile_image);
     }
 
     const updatedUser = await UserModel.updateUserImage(email, url);
+    delete updatedUser.password;
+    delete updatedUser.created_at;
 
-    return res.json({
-      status: true,
-      message: "Profile image updated",
-      data: updatedUser,
-    });
-
+    return responseJson(
+      res,
+      200,
+      0,
+      "update profile image berhasil",
+      updatedUser
+    );
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ status: false, message: err.message });
+    return responseJson(res, 500, 500, "Terjadi kesalahan pada server", null);
   }
 };
 

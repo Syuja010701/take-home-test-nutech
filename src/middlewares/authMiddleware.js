@@ -1,20 +1,20 @@
 const jwt = require("jsonwebtoken");
+const { responseJson } = require("../helpers/response");
 const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
 
 const verifyToken = (req, res, next) => {
-  // Ambil token dari header Authorization
   const authHeader = req.headers["authorization"];
 
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    return res
-      .status(401)
-      .json({
-        status: false,
-        message: "Token tidak tidak valid atau kadaluwarsa",
-        data: null,
-      });
+    return responseJson(
+      res,
+      401,
+      108,
+      "Token tidak tidak valid atau kadaluwarsa",
+      null
+    );
   }
 
   try {
@@ -23,15 +23,21 @@ const verifyToken = (req, res, next) => {
     next();
   } catch (err) {
     if (err.name === "TokenExpiredError") {
-      return res
-        .status(401)
-        .json({
-          status: false,
-          message: "Token tidak tidak valid atau kadaluwarsa",
-          data: null,
-        });
+      return responseJson(
+        res,
+        401,
+        108,
+        "Token tidak tidak valid atau kadaluwarsa",
+        null
+      );
     }
-    return res.status(403).json({ message: "Invalid token" });
+    return responseJson(
+      res,
+      401,
+      108,
+      "Token tidak tidak valid atau kadaluwarsa",
+      null
+    );
   }
 };
 
