@@ -14,7 +14,7 @@ const createTransactionTopUP = async (req, res) => {
       top_up_amount
     );
 
-    return responseJson(res, 200, 0, "Top Up Balance berhasil", transaction);
+    return responseJson(res, 200, 0, "Top Up Balance berhasil", {balance:transaction});
   } catch (error) {
     console.error("createTransaction error:", error);
     return responseJson(res, 500, 500, "Terjadi kesalahan pada server", null);

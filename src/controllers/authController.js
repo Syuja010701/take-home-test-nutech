@@ -57,11 +57,7 @@ const login = async (req, res) => {
     delete user.created_at;
     delete user.profile_image;
 
-    res.status(200).json({
-      message: "Login successful",
-      token,
-      user,
-    });
+    return responseJson(res, 200, 0, "Login Sukses", { token: token });
   } catch (err) {
     console.error("Login error:", err);
     return responseJson(res, 500, 500, "Terjadi kesalahan pada server", null);

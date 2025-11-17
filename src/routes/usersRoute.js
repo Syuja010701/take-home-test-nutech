@@ -5,6 +5,7 @@ const verifyToken = require("../middlewares/authMiddleware");
 const { updateUserValidator } = require("../validators/userValidator");
 const { handleValidation } = require("../middlewares/validationMiddleware");
 const upload = require("../middlewares/uploadProfile");
+const { responseJson } = require("../helpers/response");
 router.get("/", verifyToken, userController.getProfile);
 router.put(
   "/update",
@@ -19,15 +20,19 @@ router.put(
   (req, res, next) => {
     upload.single("image")(req, res, function (err) {
       if (err) {
-        return res.status(400).json({
-          status: false,
-          message: err.message || "Upload error",
-        });
+        let message = err.message;
+
+        if (err.code === "LIMIT_FILE_SIZE") {
+          message = "Ukuran file terlalu besar, maksimal 5MB";
+        }
+
+        return responseJson(res, 400, 102, message, null);
       }
       next();
     });
   },
   userController.uploadProfileImage
 );
+
 
 module.exports = router;
