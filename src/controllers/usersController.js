@@ -89,4 +89,18 @@ const uploadProfileImage = async (req, res) => {
   }
 };
 
-module.exports = { createUser, getProfile, updateUser, uploadProfileImage };
+const getBalance = async (req, res) => {
+  try {
+    const email = req.user.email;
+    const user = await UserModel.findUserByEmail(email);
+
+    return responseJson(res, 200, 0, "Get Balance Berhasil", {
+      balance: user.balance,
+    });
+  } catch (error) {
+    console.error(error);
+    return responseJson(res, 500, 500, "Terjadi kesalahan pada server", null);
+  }
+};
+
+module.exports = { createUser, getProfile, updateUser, uploadProfileImage, getBalance };
