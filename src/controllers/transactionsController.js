@@ -62,7 +62,7 @@ const createTransactionPayment = async (req, res) => {
       res,
       200,
       0,
-      "Transaction created successfully",
+      "Transaksi berhasil",
       transaction
     );
   } catch (error) {

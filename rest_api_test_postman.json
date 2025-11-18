@@ -1,0 +1,3073 @@
+{
+	"info": {
+		"_postman_id": "7c09ecc9-8227-40fa-a077-b7d3403bc585",
+		"name": "take home test nutech",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21469222",
+		"_collection_link": "https://lively-resonance-90607.postman.co/workspace/Test~930d137d-2f12-4cd1-8e2f-14c1fcfc52a1/collection/21469222-7c09ecc9-8227-40fa-a077-b7d3403bc585?action=share&source=collection_link&creator=21469222"
+	},
+	"item": [
+		{
+			"name": "Membership",
+			"item": [
+				{
+					"name": "register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Tests for register POST",
+									"pm.test(\"Status code is 201/2xx\", function () { pm.expect(pm.response.code).to.be.oneOf([200,201,202]); });",
+									"pm.test(\"Response time < 2000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(2000); });",
+									"pm.test(\"Content-Type header present\", function () { pm.response.to.have.header(\"Content-Type\"); });",
+									"pm.test(\"Content-Type is application/json\", function () { pm.expect(pm.response.headers.get(\"Content-Type\")).to.match(/application\\/json/i); });",
+									"let json;",
+									"pm.test(\"Body is valid JSON\", function () { json = pm.response.json(); });",
+									"pm.test(\"Register payload shape\", function(){",
+									"  if (json && (json.id || (json.data && json.data.id))) { pm.expect(json.id || json.data.id).to.exist; }",
+									"  if (json && (json.created_at || (json.data && json.data.created_at))) {",
+									"    pm.expect(new Date(json.created_at || json.data.created_at).toString()).to.not.equal(\"Invalid Date\");",
+									"  } else {",
+									"    pm.expect(Object.keys(json || {})).to.have.length.of.at.least(1);",
+									"  }",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "insomnia/12.0.0"
+							},
+							{
+								"key": "Accept",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"first_name\": \"test\",\n\t\"last_name\" : \"nutect\",\n\t\"email\" : \"testnutech.com\",\n\t\"password\" : \"testNutecth\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}register/",
+							"host": [
+								"{{base_url_prod}}register"
+							],
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "request succes",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Accept",
+										"value": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"first_name\": \"test\",\n\t\"last_name\" : \"nutect\",\n\t\"email\" : \"testnutech@gmail.com\",\n\t\"password\" : \"testNutecth\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}register/",
+									"host": [
+										"{{base_url_prod}}register"
+									],
+									"path": [
+										""
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "71"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:15:21 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"47-fy+HaeF3QVCOfv5kkYm98AMUSMQ\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::dkjt8-1763453717064-8eedcd89ae3a"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 0,\n    \"message\": \"Registrasi berhasil silahkan login\",\n    \"data\": null\n}"
+						},
+						{
+							"name": "bad request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Accept",
+										"value": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"first_name\": \"test\",\n\t\"last_name\" : \"nutect\",\n\t\"email\" : \"testnutech.com\",\n\t\"password\" : \"testNutecth\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}register/",
+									"host": [
+										"{{base_url_prod}}register"
+									],
+									"path": [
+										""
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "173"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:16:04 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"ad-DA9eWLH0YPi/pos4/cjGpJCBqqA\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::vkdtk-1763453764243-d2a59bacbd08"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 102,\n    \"message\": \"Validation errors\",\n    \"data\": {\n        \"errors\": [\n            {\n                \"type\": \"field\",\n                \"value\": \"testnutech.com\",\n                \"msg\": \"Format email tidak valid.\",\n                \"path\": \"email\",\n                \"location\": \"body\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('afterResponse', function () {",
+									"    const jsonBody = pm.response.json();",
+									"    if (jsonBody.data.token) {",
+									"        pm.environment.set('token', jsonBody.data.token);",
+									"        console.log('Token saved to environment variable!');",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "insomnia/12.0.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"testnutech@gmail.com\",\n\t\"password\": \"testNutecth\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}login/",
+							"host": [
+								"{{base_url_prod}}login"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"testnutech@gmail.com\",\n\t\"password\": \"testnutech\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}login/",
+									"host": [
+										"{{base_url_prod}}login"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "66"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:16:57 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"42-RzGVYIHKMI50+oOluOwGjxXWFVM\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::dkjt8-1763453816738-1c8c3a2ddd35"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 103,\n    \"message\": \"Username dan password salah\",\n    \"data\": null\n}"
+						},
+						{
+							"name": "bad request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"testnutech.com\",\n\t\"password\": \"testnutech\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}login/",
+									"host": [
+										"{{base_url_prod}}login"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "173"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:17:43 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"ad-DA9eWLH0YPi/pos4/cjGpJCBqqA\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::xdchj-1763453863214-a9cf4a83fffd"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 102,\n    \"message\": \"Validation errors\",\n    \"data\": {\n        \"errors\": [\n            {\n                \"type\": \"field\",\n                \"value\": \"testnutech.com\",\n                \"msg\": \"Format email tidak valid.\",\n                \"path\": \"email\",\n                \"location\": \"body\"\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "berhasil login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"testnutech@gmail.com\",\n\t\"password\": \"testNutecth\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}login/",
+									"host": [
+										"{{base_url_prod}}login"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "237"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:18:42 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"ed-lANSJxPCEC/GzQzg7v+JpE7J2w8\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::tp44v-1763453922001-6c54ebf9f0b9"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 0,\n    \"message\": \"Login Sukses\",\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RudXRlY2hAZ21haWwuY29tIiwiaWQiOjIyLCJpYXQiOjE3NjM0NTM5MjIsImV4cCI6MTc2MzQ5NzEyMn0.u5AyUxY-cSLBGtmrxwjrXPpT__hF7ormwf1pU6tw0QI\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "profile",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('preRequest', function () {",
+									"    token = pm.environment.get('token');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Tests for profile GET",
+									"pm.test(\"Status code is 2xx\", function () { pm.expect(pm.response.code).to.be.within(200, 299); });",
+									"pm.test(\"Response time < 2000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(2000); });",
+									"pm.test(\"Content-Type header present\", function () { pm.response.to.have.header(\"Content-Type\"); });",
+									"pm.test(\"Content-Type is application/json\", function () { pm.expect(pm.response.headers.get(\"Content-Type\")).to.match(/application\\/json/i); });",
+									"let json;",
+									"pm.test(\"Body is valid JSON\", function () { json = pm.response.json(); });",
+									"pm.test(\"Profile payload shape\", function(){",
+									"  const candidate = json && (json.user || json.profile || json.data);",
+									"  if (candidate) {",
+									"    const obj = candidate;",
+									"    pm.expect(obj).to.be.an(\"object\");",
+									"    if (obj.id !== undefined) pm.expect(obj.id).to.exist;",
+									"    if (obj.name !== undefined) pm.expect(obj.name).to.be.a(\"string\");",
+									"  } else {",
+									"    if (json && json.id) pm.expect(json.id).to.exist;",
+									"    else pm.expect(Object.keys(json || {})).to.have.length.of.at.least(1);",
+									"  }",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/12.0.0"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}profile/",
+							"host": [
+								"{{base_url_prod}}profile"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Request Successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url_prod}}profile/",
+									"host": [
+										"{{base_url_prod}}profile"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "153"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:21:38 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"99-hrhvU8IXbSVHP2DqEwfon08UKjo\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "BYPASS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::p8zfc-1763454098598-c2f7cfbe18fc"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 0,\n    \"message\": \"Sukses\",\n    \"data\": {\n        \"id\": 22,\n        \"first_name\": \"test\",\n        \"last_name\": \"nutect\",\n        \"email\": \"testnutech@gmail.com\",\n        \"profile_image\": null,\n        \"balance\": 0\n    }\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url_prod}}profile/",
+									"host": [
+										"{{base_url_prod}}profile"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Age",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "79"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:22:06 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"4f-/BvlEDMsuS9PUa4BSd+HKhRfB9Y\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::6dvls-1763454126354-5c13cc7c2651"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 108,\n    \"message\": \"Token tidak tidak valid atau kadaluwarsa\",\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "update profile",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('preRequest', function () {",
+									"    token = pm.environment.get('token');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "insomnia/12.0.0"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"first_name\": \"edit test\",\n\t\"last_name\": \"nutech edit\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}profile/update",
+							"host": [
+								"{{base_url_prod}}profile"
+							],
+							"path": [
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Request Successfully",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"first_name\": \"edit test\",\n\t\"last_name\": \"nutech edit\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}profile/update",
+									"host": [
+										"{{base_url_prod}}profile"
+									],
+									"path": [
+										"update"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "168"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:22:51 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"a8-UHzCneEuerAxrzKhLjtNZ7Wsux8\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::6r7gb-1763454170602-5007b1168077"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 0,\n    \"message\": \"Update Profile berhasil\",\n    \"data\": {\n        \"id\": 22,\n        \"first_name\": \"edit test\",\n        \"last_name\": \"nutech edit\",\n        \"email\": \"testnutech@gmail.com\",\n        \"profile_image\": null\n    }\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"first_name\": \"edit test\",\n\t\"last_name\": \"nutech edit\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}profile/update",
+									"host": [
+										"{{base_url_prod}}profile"
+									],
+									"path": [
+										"update"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "79"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:23:27 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"4f-/BvlEDMsuS9PUa4BSd+HKhRfB9Y\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::5zgcd-1763454207416-73ac08077f8d"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 108,\n    \"message\": \"Token tidak tidak valid atau kadaluwarsa\",\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "update profile image",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('preRequest', function () {",
+									"    token = pm.environment.get('token');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Tests for update profile image PUT (may not be JSON if file upload)",
+									"const isDownload = /image|octet-stream/i.test(pm.response.headers.get(\"Content-Type\") || \"\");",
+									"pm.test(\"Status code is 2xx\", function () { pm.expect(pm.response.code).to.be.within(200, 299); });",
+									"pm.test(\"Response time < 2000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(2000); });",
+									"pm.test(\"Content-Type header present\", function () { pm.response.to.have.header(\"Content-Type\"); });",
+									"if (!isDownload) {",
+									"  pm.test(\"Content-Type is application/json\", function () { pm.expect(pm.response.headers.get(\"Content-Type\")).to.match(/application\\/json/i); });",
+									"  let json;",
+									"  pm.test(\"Body is valid JSON\", function () { json = pm.response.json(); });",
+									"  pm.test(\"Profile image update payload shape\", function(){",
+									"    if (json && (json.updated_at || (json.data && json.data.updated_at))) {",
+									"      pm.expect(new Date(json.updated_at || json.data.updated_at).toString()).to.not.equal(\"Invalid Date\");",
+									"    } else {",
+									"      pm.expect(Object.keys(json || {})).to.have.length.of.at.least(1);",
+									"    }",
+									"  });",
+									"}"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data"
+							},
+							{
+								"key": "User-Agent",
+								"value": "insomnia/12.0.0"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "postman-cloud:///1eed7e10-c6bd-4130-be58-453be169ab5d"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url_prod}}profile/image",
+							"host": [
+								"{{base_url_prod}}profile"
+							],
+							"path": [
+								"image"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": "postman-cloud:///1efcccd7-9599-4250-a260-adfdbca73680"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url_prod}}profile/image",
+									"host": [
+										"{{base_url_prod}}profile"
+									],
+									"path": [
+										"image"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "64"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:24:20 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"40-ImBfQQi72Li/7QNyMpmoZyeY57Q\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::mt6v6-1763454256550-0344f477b13a"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 102,\n    \"message\": \"Format Image tidak sesuai\",\n    \"data\": null\n}"
+						},
+						{
+							"name": "request successfully",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": "postman-cloud:///1eed7e10-c6bd-4130-be58-453be169ab5d"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url_prod}}profile/image",
+									"host": [
+										"{{base_url_prod}}profile"
+									],
+									"path": [
+										"image"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "260"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:25:07 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"104-tTJNNdYGMDZAacft6TizlKXfn/o\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::m4qzh-1763454305360-e1325be8150c"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 0,\n    \"message\": \"update profile image berhasil\",\n    \"data\": {\n        \"id\": 22,\n        \"first_name\": \"edit test\",\n        \"last_name\": \"nutech edit\",\n        \"email\": \"testnutech@gmail.com\",\n        \"profile_image\": \"https://ca104pt6pfsegjip.public.blob.vercel-storage.com/profile_1763454306799_avanza.png\"\n    }\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": "postman-cloud:///1eed7e10-c6bd-4130-be58-453be169ab5d"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url_prod}}profile/image",
+									"host": [
+										"{{base_url_prod}}profile"
+									],
+									"path": [
+										"image"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "79"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:25:37 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"4f-/BvlEDMsuS9PUa4BSd+HKhRfB9Y\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::sv74z-1763454336796-067ecdf07ca0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 108,\n    \"message\": \"Token tidak tidak valid atau kadaluwarsa\",\n    \"data\": null\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Information",
+			"item": [
+				{
+					"name": "banners",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('preRequest', function () {",
+									"    token = pm.environment.get('token');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/12.0.0"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}banners/",
+							"host": [
+								"{{base_url_prod}}banners"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "request successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url_prod}}banners/",
+									"host": [
+										"{{base_url_prod}}banners"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Age",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "838"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:27:08 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"346-AyjGIuZ1X39E+bikHzQBL5UF5TQ\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::rfk8h-1763454427995-78131624bf5a"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 0,\n    \"message\": \"Sukses\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"banner_name\": \"Banner 1\",\n            \"banner_image\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"description\": \"Lerem Ipsum Dolor sit amet\"\n        },\n        {\n            \"id\": 2,\n            \"banner_name\": \"Banner 2\",\n            \"banner_image\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"description\": \"Lerem Ipsum Dolor sit amet\"\n        },\n        {\n            \"id\": 3,\n            \"banner_name\": \"Banner 3\",\n            \"banner_image\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"description\": \"Lerem Ipsum Dolor sit amet\"\n        },\n        {\n            \"id\": 4,\n            \"banner_name\": \"Banner 4\",\n            \"banner_image\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"description\": \"Lerem Ipsum Dolor sit amet\"\n        },\n        {\n            \"id\": 5,\n            \"banner_name\": \"Banner 5\",\n            \"banner_image\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"description\": \"Lerem Ipsum Dolor sit amet\"\n        },\n        {\n            \"id\": 6,\n            \"banner_name\": \"Banner 6\",\n            \"banner_image\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"description\": \"Lerem Ipsum Dolor sit amet\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "services",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('preRequest', function () {",
+									"    token = pm.environment.get('token');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/12.0.0"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}services/",
+							"host": [
+								"{{base_url_prod}}services"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url_prod}}services/",
+									"host": [
+										"{{base_url_prod}}services"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Age",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "79"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:27:40 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"4f-/BvlEDMsuS9PUa4BSd+HKhRfB9Y\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::pxqtz-1763454460163-f8b2e7754193"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 108,\n    \"message\": \"Token tidak tidak valid atau kadaluwarsa\",\n    \"data\": null\n}"
+						},
+						{
+							"name": "request successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url_prod}}services/",
+									"host": [
+										"{{base_url_prod}}services"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:28:09 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"73c-KqEnwKwLYY7SbIPbiJi10rToR+o\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "BYPASS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::kln67-1763454487935-56fcf3ab4741"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 0,\n    \"message\": \"sukses\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"service_code\": \"PAJAK\",\n            \"service_name\": \"Pajak PBB\",\n            \"service_icon\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"service_tariff\": 40000\n        },\n        {\n            \"id\": 2,\n            \"service_code\": \"PLN\",\n            \"service_name\": \"Listrik\",\n            \"service_icon\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"service_tariff\": 10000\n        },\n        {\n            \"id\": 3,\n            \"service_code\": \"PDAM\",\n            \"service_name\": \"PDAM Berlangganan\",\n            \"service_icon\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"service_tariff\": 40000\n        },\n        {\n            \"id\": 4,\n            \"service_code\": \"PULSA\",\n            \"service_name\": \"Pulsa\",\n            \"service_icon\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"service_tariff\": 40000\n        },\n        {\n            \"id\": 5,\n            \"service_code\": \"PGN\",\n            \"service_name\": \"PGN Berlangganan\",\n            \"service_icon\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"service_tariff\": 50000\n        },\n        {\n            \"id\": 6,\n            \"service_code\": \"MUSIK\",\n            \"service_name\": \"Musik Berlangganan\",\n            \"service_icon\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"service_tariff\": 50000\n        },\n        {\n            \"id\": 7,\n            \"service_code\": \"TV\",\n            \"service_name\": \"TV Berlangganan\",\n            \"service_icon\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"service_tariff\": 50000\n        },\n        {\n            \"id\": 8,\n            \"service_code\": \"PAKET_DATA\",\n            \"service_name\": \"Paket data\",\n            \"service_icon\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"service_tariff\": 50000\n        },\n        {\n            \"id\": 9,\n            \"service_code\": \"VOUCHER_GAME\",\n            \"service_name\": \"Voucher Game\",\n            \"service_icon\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"service_tariff\": 100000\n        },\n        {\n            \"id\": 10,\n            \"service_code\": \"VOUCHER_MAKANAN\",\n            \"service_name\": \"Voucher Makanan\",\n            \"service_icon\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"service_tariff\": 100000\n        },\n        {\n            \"id\": 11,\n            \"service_code\": \"QURBAN\",\n            \"service_name\": \"Qurban\",\n            \"service_icon\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"service_tariff\": 200000\n        },\n        {\n            \"id\": 12,\n            \"service_code\": \"ZAKAT\",\n            \"service_name\": \"Zakat\",\n            \"service_icon\": \"https://nutech-integrasi.app/dummy.jpg\",\n            \"service_tariff\": 300000\n        },\n        {\n            \"id\": 13,\n            \"service_code\": \"TOPUP\",\n            \"service_name\": \"Top Up Balance\",\n            \"service_icon\": null,\n            \"service_tariff\": null\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "balance",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('preRequest', function () {",
+									"    token = pm.environment.get('token');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/12.0.0"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}balance/",
+							"host": [
+								"{{base_url_prod}}balance"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url_prod}}balance/",
+									"host": [
+										"{{base_url_prod}}balance"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"44-xZKU/+hvIu28sDeNdYhG7Ujy1kk\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:35:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 500,\n    \"message\": \"Terjadi kesalahan pada server\",\n    \"data\": null\n}"
+						},
+						{
+							"name": "request successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url_prod}}balance/",
+									"host": [
+										"{{base_url_prod}}balance"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "66"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:35:46 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"42-G4roVXl7nTWR41TUP6v81crF1X0\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "BYPASS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::q5nzc-1763454945866-b8c1043a76fc"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 0,\n    \"message\": \"Get Balance Berhasil\",\n    \"data\": {\n        \"balance\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "transaction history",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('preRequest', function () {",
+									"    token = pm.environment.get('token');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/12.0.0"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url_prod}}transaction/history?offset=0&limit=",
+							"host": [
+								"{{base_url_prod}}transaction"
+							],
+							"path": [
+								"history"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get History Transaksi berhasil",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url_prod}}transaction/history?offset=0&limit=",
+									"host": [
+										"{{base_url_prod}}transaction"
+									],
+									"path": [
+										"history"
+									],
+									"query": [
+										{
+											"key": "offset",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "364"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:42:25 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"16c-c58VbDj18mkOKovAXhzCd5EVxbY\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "BYPASS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::tqg7k-1763455344335-e5746a1e68c5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 0,\n    \"message\": \"Success\",\n    \"data\": {\n        \"offset\": 0,\n        \"limit\": 0,\n        \"records\": [\n            {\n                \"invoice_number\": \"INV18112025-002\",\n                \"transaction_type\": \"PAYMENT\",\n                \"description\": null,\n                \"total_amount\": 10000,\n                \"created_on\": \"2025-11-18T08:40:27.000Z\"\n            },\n            {\n                \"invoice_number\": \"INV18112025-001\",\n                \"transaction_type\": \"TOPUP\",\n                \"description\": null,\n                \"total_amount\": 10000,\n                \"created_on\": \"2025-11-18T08:36:46.000Z\"\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url_prod}}transaction/history?offset=0&limit=",
+									"host": [
+										"{{base_url_prod}}transaction"
+									],
+									"path": [
+										"history"
+									],
+									"query": [
+										{
+											"key": "offset",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Age",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "79"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:43:08 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"4f-/BvlEDMsuS9PUa4BSd+HKhRfB9Y\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::tdlws-1763455387911-dd91574ff75b"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 108,\n    \"message\": \"Token tidak tidak valid atau kadaluwarsa\",\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "top_up",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('preRequest', function () {",
+									"    token = pm.environment.get('token');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Tests for top_up POST",
+									"pm.test(\"Status code is 201/2xx\", function () { pm.expect(pm.response.code).to.be.oneOf([200,201,202]); });",
+									"pm.test(\"Response time < 2000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(2000); });",
+									"pm.test(\"Content-Type header present\", function () { pm.response.to.have.header(\"Content-Type\"); });",
+									"pm.test(\"Content-Type is application/json\", function () { pm.expect(pm.response.headers.get(\"Content-Type\")).to.match(/application\\/json/i); });",
+									"let json;",
+									"pm.test(\"Body is valid JSON\", function () { json = pm.response.json(); });",
+									"pm.test(\"Top up payload shape\", function(){",
+									"  if (json && (json.id || (json.data && json.data.id))) {",
+									"    pm.expect(json.id || json.data.id).to.exist;",
+									"  }",
+									"  if (json && (json.balance || (json.data && json.data.balance))) {",
+									"    pm.expect(Number(json.balance || json.data.balance)).to.be.a(\"number\");",
+									"  } else {",
+									"    pm.expect(Object.keys(json || {})).to.have.length.of.at.least(1);",
+									"  }",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "insomnia/12.0.0"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"top_up_amount\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}topup/",
+							"host": [
+								"{{base_url_prod}}topup"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "request successfully",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"top_up_amount\": 10000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}topup/",
+									"host": [
+										"{{base_url_prod}}topup"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "73"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:36:47 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"49-tu4ToTZWzRPUknu9gBalqBi1uj0\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::dvqrk-1763455005177-9490fb81b4cf"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 0,\n    \"message\": \"Top Up Balance berhasil\",\n    \"data\": {\n        \"balance\": 10000\n    }\n}"
+						},
+						{
+							"name": "bad request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"top_up_amount\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}topup/",
+									"host": [
+										"{{base_url_prod}}topup"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "180"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:37:23 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"b4-Pt/bLyHsaTUY45mjS5QeBGNNFXo\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::zhgr7-1763455043747-cbed516269e7"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 102,\n    \"message\": \"Validation errors\",\n    \"data\": {\n        \"errors\": [\n            {\n                \"type\": \"field\",\n                \"value\": 0,\n                \"msg\": \"Amount harus berupa angka lebih dari 0.\",\n                \"path\": \"top_up_amount\",\n                \"location\": \"body\"\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"top_up_amount\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}topup/",
+									"host": [
+										"{{base_url_prod}}topup"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "79"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:37:49 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"4f-/BvlEDMsuS9PUa4BSd+HKhRfB9Y\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::c9jrs-1763455068929-e35bc5546743"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 108,\n    \"message\": \"Token tidak tidak valid atau kadaluwarsa\",\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "transaction",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('preRequest', function () {",
+									"    token = pm.environment.get('token');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "insomnia/12.0.0"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"service_code\": \"PLN\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_prod}}transaction/",
+							"host": [
+								"{{base_url_prod}}transaction"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "bad request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"service_code\": \"fdsafdsaf\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}transaction/",
+									"host": [
+										"{{base_url_prod}}transaction"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "76"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:38:32 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"4c-yynXQtokvXThL8mt0M1cV82DMj4\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::l2wpq-1763455111731-6f5c7680bd06"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 102,\n    \"message\": \"Service ataus Layanan tidak ditemukan\",\n    \"data\": null\n}"
+						},
+						{
+							"name": "unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"service_code\": \"fdsafdsaf\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}transaction/",
+									"host": [
+										"{{base_url_prod}}transaction"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "79"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:39:30 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"4f-/BvlEDMsuS9PUa4BSd+HKhRfB9Y\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::rfk8h-1763455170629-b562082a0ef5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 108,\n    \"message\": \"Token tidak tidak valid atau kadaluwarsa\",\n    \"data\": null\n}"
+						},
+						{
+							"name": "transaction",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "User-Agent",
+										"value": "insomnia/12.0.0"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN5dWphcmFqYWJtYWhpcmFuM0BnbWFpbC5jb20iLCJpZCI6NiwiaWF0IjoxNzYyODg1OTY0LCJleHAiOjE3NjI5MjkxNjR9.tm1pp4QlmzIGJ8I1gFq5W56iP1BPtZz0rDoyZ_ptF1o",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"service_code\": \"PLN\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url_prod}}transaction/",
+									"host": [
+										"{{base_url_prod}}transaction"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "87"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 18 Nov 2025 08:41:45 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"57-sWK+mTxQgMPxOfMPN3bPTgiUd6Y\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::vdvbr-1763455305349-d2ff16b4c57d"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 103,\n    \"message\": \"saldo anda tidak cukup silahkan melakukan top up\",\n    \"data\": null\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
